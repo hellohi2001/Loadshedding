@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #2980b9, #6dd5fa);
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-bottom: 1px solid #888;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .login-box input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    .login-box input[type="submit"]:hover {
+      background-color: #555;
+    }
+
+    .login-box .forgot-password {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .login-failed {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <form onsubmit="return validateLogin(event)">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <input type="submit" value="Login">
+      </form>
+      <div class="forgot-password">
+        <a href="#">Forgot password?</a>
+      </div>
+      <div id="login-failed" class="login-failed"></div>
+    </div>
+  </div>
+
+  <script>
+    function validateLogin(event) {
+      event.preventDefault();
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+
+      if (username === "loadshedding" && password === "admin") {
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("login-failed").innerHTML = "Login failed. Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>

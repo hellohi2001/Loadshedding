@@ -1,0 +1,68 @@
+// Request permission for geolocation
+navigator.permissions
+  .query({ name: 'geolocation' })
+  .then(function (permissionStatus) {
+    if (permissionStatus.state === 'granted') {
+      // Permission already granted, proceed to get the location
+      getLocation();
+    } else if (permissionStatus.state === 'prompt') {
+      // Permission not granted, but can be requested
+      askForPermission();
+    } else {
+      // Permission denied, handle accordingly
+      handlePermissionDenied();
+    }
+  })
+  .catch(function (error) {
+    console.error('Error occurred while requesting geolocation permission:', error);
+  });
+
+// Function to request permission for geolocation
+function askForPermission() {
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      // Permission granted, proceed to get the location
+      getLocation();
+    },
+    function (error) {
+      console.error('Error occurred while getting geolocation:', error);
+    }
+  );
+}
+
+// Function to get the current location
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    // Send notification with the current location
+    sendNotification(latitude, longitude);
+  });
+}
+
+// Function to send a notification
+function sendNotification(latitude, longitude) {
+  // Check if the browser supports notifications
+  if ('Notification' in window) {
+    Notification.requestPermission(function (permission) {
+      if (permission === 'granted') {
+        var notification = new Notification('Current Location', {
+          body: 'Latitude: ' + latitude + '\nLongitude: ' + longitude,
+        });
+
+        // Automatically close the notification after a few seconds
+        setTimeout(function () {
+          notification.close();
+        }, 5000);
+      }
+    });
+  } else {
+    console.error('Notifications are not supported in this browser.');
+  }
+}
+
+// Function to handle permission denied
+function handlePermissionDenied() {
+  console.error('Geolocation permission denied.');
+}
